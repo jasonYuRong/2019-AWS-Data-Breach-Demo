@@ -93,7 +93,7 @@ resource "aws_instance" "vulnerable_server" {
     systemctl enable httpd
     
     # Download the PHP file from a public URL (like an S3 bucket or GitHub)
-    wget -O /var/www/html/index.php https://your-php-file-url.com/index.php
+    wget -O /var/www/html/ssrf.php https://raw.githubusercontent.com/jasonYuRong/2019-AWS-Data-Breach-Demo/main/ssrf.php
   EOF
 
 }
