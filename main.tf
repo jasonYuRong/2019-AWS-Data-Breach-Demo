@@ -97,12 +97,13 @@ resource "aws_instance" "vulnerable_server" {
     #!/bin/bash
     yum update -y
     yum install -y httpd
+    yum install -y php
     systemctl start httpd
     systemctl enable httpd
 
     # Download the PHP file from a public URL (like an S3 bucket or GitHub)
     wget -O /var/www/html/ssrf.php https://raw.githubusercontent.com/jasonYuRong/2019-AWS-Data-Breach-Demo/main/ssrf.php
-    wget -O /var/www/html/code_rain.gif https://raw.githubusercontent.com/jasonYuRong/2019-AWS-Data-Breach-Demo/main/code%20rain.gif
+    wget -O /var/www/html/code_rain.gif https://raw.githubusercontent.com/jasonYuRong/2019-AWS-Data-Breach-Demo/main/code_rain.gif
   EOF
 }
 
