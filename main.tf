@@ -76,12 +76,54 @@ resource "aws_security_group" "lab_sg" {
   }
 }
 
+# IAM Role for EC2 to access S3
+resource "aws_iam_role" "ec2_role" {
+  name = "ec2_role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action = "sts:AssumeRole",
+        Effect = "Allow",
+        Principal = {
+          Service = "ec2.amazonaws.com"
+        }
+      }
+    ]
+  })
+}
+
+# IAM Policy for full S3 access
+resource "aws_iam_role_policy" "ec2_s3_policy" {
+  name = "ec2_s3_policy"
+  role = aws_iam_role.ec2_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action = "s3:*",
+        Effect = "Allow",
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+# IAM Instance Profile
+resource "aws_iam_instance_profile" "ec2_instance_profile" {
+  name = "ec2_instance_profile"
+  role = aws_iam_role.ec2_role.name
+}
+
 # EC2 Instance
 resource "aws_instance" "vulnerable_server" {
   ami                         = "ami-0984f4b9e98be44bf"  # Amazon Linux 2 AMI (replace with the latest AMI ID)
   instance_type               = "t2.micro"
   subnet_id                   = aws_subnet.lab_subnet.id
   vpc_security_group_ids      = [aws_security_group.lab_sg.id]  # Use security group ID instead of name
+  iam_instance_profile        = aws_iam_instance_profile.ec2_instance_profile.name
 
   metadata_options {
     http_tokens               = "optional"  # IMDSv1
