@@ -1,0 +1,46 @@
+{
+    "bankDatabase": {
+      "customers": [
+        {
+          "name": "John Doe",
+          "SSN": "123-45-6789",
+          "bankAccountNumber": "9876543210",
+          "balance": 15000.75,
+          "creditCardNumber": "4111-1111-1111-1111",
+          "email": "john.doe@example.com"
+        },
+        {
+          "name": "Jane Smith",
+          "SSN": "234-56-7890",
+          "bankAccountNumber": "1234567890",
+          "balance": 3200.50,
+          "creditCardNumber": "5555-5555-5555-4444",
+          "email": "jane.smith@example.com"
+        },
+        {
+          "name": "Robert Johnson",
+          "SSN": "345-67-8901",
+          "bankAccountNumber": "5678901234",
+          "balance": 780.20,
+          "creditCardNumber": "3782-8224-6310-005",
+          "email": "robert.johnson@example.com"
+        },
+        {
+          "name": "Emily Davis",
+          "SSN": "456-78-9012",
+          "bankAccountNumber": "3456789012",
+          "balance": 450.00,
+          "creditCardNumber": "6011-0009-9013-9424",
+          "email": "emily.davis@example.com"
+        },
+        {
+          "name": "Michael Brown",
+          "SSN": "567-89-0123",
+          "bankAccountNumber": "2345678901",
+          "balance": 12000.00,
+          "creditCardNumber": "3530-1113-3330-0000",
+          "email": "michael.brown@example.com"
+        }
+      ]
+    }
+  }

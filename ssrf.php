@@ -8,7 +8,7 @@
     <style>
         body {
             font-family: "Courier New", Courier, monospace; 
-            background: url('code rain.gif') no-repeat center center fixed;
+            background: url('code_rain.gif') no-repeat center center fixed;
             background-size: cover; 
             color: #00ff00; 
             margin: 0;
@@ -92,7 +92,7 @@
                 $response = @file_get_contents($url); 
 
                 if ($response === FALSE) {
-                    echo "<p class='error'>Error: Could not fetch content from $url.</p>";
+                    echo "<p>class='error'>Error: Could not fetch content from $url.</p>";
                 } else {
                     echo "<p>Response from $url:</p>";
                     echo "<div>" . htmlspecialchars($response) . "</div>";

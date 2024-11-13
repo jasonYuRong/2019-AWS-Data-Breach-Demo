@@ -59,6 +59,12 @@ resource "aws_security_group" "lab_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]  # Replace "your-public-ip" with your actual IP
+  }
   egress {
     from_port   = 0
     to_port     = 0
@@ -72,30 +78,32 @@ resource "aws_security_group" "lab_sg" {
 
 # EC2 Instance
 resource "aws_instance" "vulnerable_server" {
-  ami                         = "ami-0c55b159cbfafe1f0" # Amazon Linux 2 AMI (replace with the latest AMI ID)
+  ami                         = "ami-0984f4b9e98be44bf"  # Amazon Linux 2 AMI (replace with the latest AMI ID)
   instance_type               = "t2.micro"
   subnet_id                   = aws_subnet.lab_subnet.id
-  security_groups             = [aws_security_group.lab_sg.name]
+  vpc_security_group_ids      = [aws_security_group.lab_sg.id]  # Use security group ID instead of name
+
   metadata_options {
-    http_tokens               = "optional" # IMDSv1
+    http_tokens               = "optional"  # IMDSv1
     http_put_response_hop_limit = 1
   }
+
   tags = {
     Name = "vulnerable-server"
   }
 
-  # User Data to install httpd
+  # User Data to install httpd and download files
   user_data = <<-EOF
     #!/bin/bash
     yum update -y
     yum install -y httpd
     systemctl start httpd
     systemctl enable httpd
-    
+
     # Download the PHP file from a public URL (like an S3 bucket or GitHub)
     wget -O /var/www/html/ssrf.php https://raw.githubusercontent.com/jasonYuRong/2019-AWS-Data-Breach-Demo/main/ssrf.php
+    wget -O /var/www/html/code_rain.gif https://raw.githubusercontent.com/jasonYuRong/2019-AWS-Data-Breach-Demo/main/code%20rain.gif
   EOF
-
 }
 
 # S3 Bucket
@@ -106,8 +114,10 @@ resource "aws_s3_bucket" "jhu_en_650_603" {
   }
 }
 
-# S3 Bucket ACL
-resource "aws_s3_bucket_acl" "jhu_en_650_603_acl" {
-  bucket = aws_s3_bucket.jhu_en_650_603.id
-  acl    = "private"
+# Add JSON File to S3 Using aws_s3_object
+resource "aws_s3_object" "json_file" {
+  bucket = aws_s3_bucket.jhu_en_650_603.bucket
+  key    = "customer.json"  # The name of the file in the S3 bucket
+  source = "./customer.json"  # Local path to the JSON file
+  acl    = "private"  # Access control (e.g., private, public-read)
 }
