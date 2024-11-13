@@ -92,7 +92,7 @@
                 $response = @file_get_contents($url); 
 
                 if ($response === FALSE) {
-                    echo "<p>class='error'>Error: Could not fetch content from $url.</p>";
+                    echo "<p class='error'>Error: Could not fetch content from $url.</p>";
                 } else {
                     echo "<p>Response from $url:</p>";
                     echo "<div>" . htmlspecialchars($response) . "</div>";
