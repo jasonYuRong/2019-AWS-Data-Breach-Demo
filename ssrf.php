@@ -97,6 +97,10 @@
                     echo "<p>Response from $url:</p>";
                     echo "<div>" . htmlspecialchars($response) . "</div>";
                 }
+                /*
+                Example URLs:
+                     http://169.254.169.254/latest/meta-data/iam/security-credentials/ec2_role
+                */
             }
             ?>
         </div>
