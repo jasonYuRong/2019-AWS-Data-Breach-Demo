@@ -1,4 +1,4 @@
-# 🌟 2019 AWS Data Breach Demo Lab Guide 🌟
+# 2019 AWS Data Breach Demo Lab Guide
 
 ## 🌐 Overview
 
@@ -6,9 +6,9 @@ This lab demonstrates an attack based on the SSRF (Server-Side Request Forgery) 
 
 ## 📖 The Story
 
-In this lab, we simulate a real-world scenario where an attacker exploits a misconfigured web application on an EC2 instance. The vulnerable application allows the attacker to access the EC2 metadata service, retrieve IAM credentials, and subsequently gain unauthorized access to an S3 bucket. By performing this lab, we learn how simple misconfigurations can lead to serious security breaches in cloud environments.
+In this lab, we simulate a real-world scenario, 2019 Capital One data breach, where an attacker exploits a misconfigured web application on an EC2 instance. The vulnerable application allows the attacker to access the EC2 metadata service, retrieve IAM credentials, and subsequently gain unauthorized access to an S3 bucket. By performing this lab, we learn how simple misconfigurations can lead to serious security breaches in cloud environments.
 
-![The Story](images/story.jpg)
+![The Story](images/story.png)
 
 ## 🛠️ Lab Setup
 
@@ -45,24 +45,28 @@ In this lab, we simulate a real-world scenario where an attacker exploits a misc
 
    Follow the prompts to approve the infrastructure changes. Terraform will create the EC2 instance along with the necessary configurations, including deploying Apache and the `ssrf.php` script.
 
+> 🌿 What is Terraform?
+Terraform is an open-source infrastructure as code (IaC) tool created by HashiCorp. It allows you to define and provision data center infrastructure using a high-level configuration language. Terraform can manage resources across a wide range of providers, such as AWS, Azure, and Google Cloud, making it a powerful tool for automating cloud infrastructure setup and scaling. In this lab, we use Terraform to quickly deploy the required AWS infrastructure, including EC2, VPC, S3 and IAM.
+
+![Terraform](images/terraform.png)
+
 ## 🎯 Goal
 
 The main goal of this lab is to gain unauthorized access to the S3 bucket by exploiting the SSRF vulnerability. Specifically, you will access the EC2 metadata service, obtain temporary AWS credentials, and use those credentials to retrieve an object from the S3 bucket.
 
 ## 💡 Solution & Walkthrough
 
-### Step 1: 🚦 Launch an EC2 Instance and Ensure Accessibility
+### Step 1: 🔍 Set Up the SSRF Vulnerability Environment
+
+The Terraform script has already set up Apache HTTP server and deployed a vulnerable PHP file `ssrf.php` on your EC2 instance. This file allows an attacker to exploit SSRF to access resources that should not be accessible externally, such as the EC2 metadata service.
+
+### Step 2: 🚦 Launch an EC2 Instance and Ensure Accessibility
 
 Make sure you have an AWS EC2 instance running with the following attributes:
 
 - **Public IP**: A public IP address is assigned so it can be accessed from the internet.
 - **IAM Role**: Configured with an IAM role (`ec2_role`) that has permissions to access S3 for the demo.
-
-### Step 2: 🔍 Set Up the SSRF Vulnerability Environment
-
-The Terraform script has already set up Apache HTTP server and deployed a vulnerable PHP file `ssrf.php` on your EC2 instance. This file allows an attacker to exploit SSRF to access resources that should not be accessible externally, such as the EC2 metadata service.
-
-Ensure that the HTTP server is running and accessible via the public IP of your EC2 instance.
+- Ensure that the HTTP server is running and accessible via the public IP of your EC2 instance.
 
 ### Step 3: 🚨 Exploit the SSRF Vulnerability to Access EC2 Metadata
 
@@ -92,6 +96,8 @@ export AWS_SECRET_ACCESS_KEY="S7z6biyOscdzDEVuLLLXa0GwHYRdN89ivkMy/4Dz"
 export AWS_SESSION_TOKEN="IQoJb3JpZ2luX2VjEFYaCXV..."
 ```
 
+![export](images/export.png)
+
 ### Step 5: 📥 Use AWS CLI to Access the S3 Bucket
 
 Using the credentials set in the previous step, you can now use AWS CLI to access the specified S3 bucket.
@@ -101,6 +107,8 @@ For example, download a file from the S3 bucket:
 ```sh
 aws s3 cp s3://jhu-en-650-603/customer.json - | cat
 ```
+
+![export](images/s3.png)
 
 This command downloads the `customer.json` file from the S3 bucket and displays its contents in the terminal.
 
@@ -129,6 +137,15 @@ At this point, we have successfully exploited an SSRF vulnerability in the EC2 i
 4. **📝 Code Auditing and Input Validation**:
    - Ensure proper validation of user inputs to avoid directly using user input as part of a URL request.
 
-## 📜 Lab Summary
 
-This lab demonstrated the dangers of SSRF attacks in a cloud environment, showcasing the potential to leverage such vulnerabilities to further attack AWS infrastructure. The goal was to exploit SSRF to gain unauthorized access to S3 and retrieve sensitive data. Hopefully, this demo helps you better understand how to prevent similar security risks and apply the principle of least privilege and secure configurations.
+
+
+## 📚 References
+
+- [AWS Security Best Practices](https://docs.aws.amazon.com/general/latest/gr/aws-security-best-practices.html)
+- [Understanding and Mitigating SSRF Vulnerabilities](https://owasp.org/www-community/attacks/Server_Side_Request_Forgery)
+- [Terraform Documentation](https://www.terraform.io/docs/index.html)
+- [AWS CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/)
+- [Instance Metadata Service (IMDSv2)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html)
+- [Web Application Firewall (WAF)](https://aws.amazon.com/waf/)
+
