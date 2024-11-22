@@ -164,3 +164,7 @@ resource "aws_s3_object" "json_file" {
   source = "./customer.json"  # Local path to the JSON file
   acl    = "private"  # Access control (e.g., private, public-read)
 }
+
+output "ssrf_php_url" {
+  value = "http://${aws_instance.vulnerable_server.public_ip}/ssrf.php"
+}
