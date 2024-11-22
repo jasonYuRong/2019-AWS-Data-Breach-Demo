@@ -48,7 +48,7 @@ In this lab, we simulate a real-world scenario, 2019 Capital One data breach, wh
 > 🌿 What is Terraform?
 Terraform is an open-source infrastructure as code (IaC) tool created by HashiCorp. It allows you to define and provision data center infrastructure using a high-level configuration language. Terraform can manage resources across a wide range of providers, such as AWS, Azure, and Google Cloud, making it a powerful tool for automating cloud infrastructure setup and scaling. In this lab, we use Terraform to quickly deploy the required AWS infrastructure, including EC2, VPC, S3 and IAM.
 
-![Terraform](images/terraform.png)
+![Terraform](images/tf.png)
 
 ## 🎯 Goal
 
