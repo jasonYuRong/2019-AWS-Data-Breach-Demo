@@ -168,3 +168,22 @@ resource "aws_s3_object" "json_file" {
 output "ssrf_php_url" {
   value = "http://${aws_instance.vulnerable_server.public_ip}/ssrf.php"
 }
+
+output "lab_status" {
+  value = <<EOF
+**********************************************************************
+*                                                                    
+*  🎉✨✨✨  The Lab Environment is Successfully Built!  ✨✨✨🎉     
+*                                                                    
+**********************************************************************
+* 
+*  🌐 SSRF PHP URL:                                                   
+*    ➡ http://${aws_instance.vulnerable_server.public_ip}/ssrf.php 
+*                   
+**********************************************************************
+*                                                                    
+*   🚀 Ready for testing! Make sure to use it responsibly! 🚀        
+*                                                                    
+**********************************************************************
+EOF
+}
