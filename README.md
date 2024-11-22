@@ -8,6 +8,8 @@ This lab demonstrates an attack based on the SSRF (Server-Side Request Forgery) 
 
 In this lab, we simulate a real-world scenario where an attacker exploits a misconfigured web application on an EC2 instance. The vulnerable application allows the attacker to access the EC2 metadata service, retrieve IAM credentials, and subsequently gain unauthorized access to an S3 bucket. By performing this lab, we learn how simple misconfigurations can lead to serious security breaches in cloud environments.
 
+![The Story](images/story.jpg)
+
 ## 🛠️ Lab Setup
 
 ### 🔧 Prerequisites
@@ -18,6 +20,8 @@ In this lab, we simulate a real-world scenario where an attacker exploits a misc
 - A VPC to host the EC2 instance.
 - An S3 bucket to store and access data.
 - The EC2 instance must be accessible via the public internet.
+
+![Lab Setup](images/lab.png)
 
 ### 📝 Lab Setup Steps
 
